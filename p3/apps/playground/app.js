@@ -1,3 +1,6 @@
+// Basic setup from official Express documentation:
+// https://expressjs.com/
+
 const express = require('express')
 const app = express()
 const port = 8888
