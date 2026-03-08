@@ -15,8 +15,8 @@ It should return `Hello World v{tagVersion}!`
 
 ### Custom Docker app image
 
-1. Build image with specific architecture: `docker build --platform linux/arm64 -t rkassel42/playground:v{tagVersion} .`
-2. Push the image on Docker Hub: `docker push rkassel42/playground:v{tagVersion}`
+1. Build image with specific architecture: `docker build --platform linux/arm64 -t rkassel/playground:v{tagVersion} .`
+2. Push the image on Docker Hub: `docker push rkassel/playground:v{tagVersion}`
 
 Before pushig the image, you can also test it locally and outside the VM by:
 1. Retrieving the image ID after build: `docker image ls`
