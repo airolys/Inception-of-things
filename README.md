@@ -1,3 +1,18 @@
+## P3
+
+### Difference between k3s and k3d
+
+- k3s allows to create a cluster directly on a VM
+- k3d allows to create a cluster inside a Docker container, no VM required
+
+### App deployment
+
+To test that the app has been well deployed inside its pod:
+1. Inside the VM, execute : `sudo kubectl port-forward svc/service-www 8080:80 -n dev`
+2. Inside the VM again, from another terminal, execute `curl http://localhost:8080`
+
+It should return `Hello World v1!`
+
 ## Vagrant on Mac
 
 ### How to setup a VM on Mac with Vagrant?
