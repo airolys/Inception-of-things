@@ -83,3 +83,6 @@ sudo kubectl apply -n argocd --server-side --force-conflicts -f https://raw.gith
 
 # Check that Argo CD pods are running
 sudo kubectl get pods -n argocd
+
+# Apply Argo CD configuration
+sudo kubectl apply -f argocd/application.yaml
