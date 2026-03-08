@@ -8,8 +8,8 @@
 ### App deployment
 
 To test that the app has been well deployed inside its pod:
-1. Inside the VM, execute : `sudo kubectl port-forward svc/service-www 8080:80 -n dev`
-2. Inside the VM again, from another terminal, execute `curl http://localhost:8080`
+1. Inside the VM, execute : `sudo kubectl port-forward svc/service-www 8888:80 -n dev`
+2. Inside the VM again, from another terminal, execute `curl http://localhost:8888`
 
 It should return `Hello World v{tagVersion}!`
 
