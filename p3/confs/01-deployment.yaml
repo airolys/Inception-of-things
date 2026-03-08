@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: container-www
-        image: rkassel/playground:v1
+        image: rkassel/playground:v2
         ports:
         - containerPort: 8888
