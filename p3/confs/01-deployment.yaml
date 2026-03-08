@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-www
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: playground # Tag to link with the service
+  template:
+    metadata:
+      labels:
+        app: playground
+    spec:
+      containers:
+      - name: container-www
+        image: rkassel42/playground:v1
+        ports:
+        - containerPort: 8888

@@ -62,8 +62,14 @@ sudo k3d cluster create mycluster
 # Use the new cluster with kubectl, e.g.:
 sudo kubectl get nodes
 
-# Create namespaces from confs/namespaces.yaml
-sudo kubectl create -f ./confs/namespaces.yaml
+# Apply all configuration files
+sudo kubectl apply -f ./confs/
 
 # Check that namespaces have been created
 sudo kubectl get namespace
+
+# Check that the pod for app is running
+sudo kubectl get pods -n dev
+
+# Inspect Events inside dev namespace
+sudo kubectl describe pod -l app=playground -n dev
