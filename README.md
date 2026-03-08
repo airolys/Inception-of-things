@@ -14,3 +14,7 @@ To find the box name to use in the Vagrantfile:
 2. Set `Provider` to `qemu`
 3. Set `Architecture` to the one related to your Mac (`uname -m`)
 4. In the search bar, search for the LTS of the OS you want to install (by typing `debian trixie` for instance)
+
+## Other sources
+
+- Kubernetes Namespaces: [https://kubernetes.io/docs/tasks/administer-cluster/namespaces/](https://kubernetes.io/docs/tasks/administer-cluster/namespaces/)

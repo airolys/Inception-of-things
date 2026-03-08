@@ -35,6 +35,18 @@ sudo systemctl status docker
 sudo docker run hello-world
 
 # ************************************************************************** */
+# Setup Kubectl                                                              */
+# ************************************************************************** */
+
+# Source: official kubernetes documentation: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+# Download the latest release with the command:
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+
+# Install kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# ************************************************************************** */
 # Setup k3d                                                                  */
 # ************************************************************************** */
 
@@ -42,6 +54,16 @@ sudo docker run hello-world
 # Source: official k3d documentation: https://k3d.io/stable/#installation
 curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
-# Create a cluster named mycluster with just a single server node for testing purposes
 # Source: official k3d documentation: https://k3d.io/stable/#quick-start
+
+# Create a cluster named mycluster with just a single server node for testing purposes
 sudo k3d cluster create mycluster
+
+# Use the new cluster with kubectl, e.g.:
+sudo kubectl get nodes
+
+# Create namespaces from confs/namespaces.yaml
+sudo kubectl create -f ./confs/namespaces.yaml
+
+# Check that namespaces have been created
+sudo kubectl get namespace
