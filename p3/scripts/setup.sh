@@ -73,3 +73,16 @@ sudo kubectl get pods -n dev
 
 # Inspect Events inside dev namespace
 sudo kubectl describe pod -l app=playground -n dev
+
+# ************************************************************************** */
+# Setup Argo CD                                                              */
+# ************************************************************************** */
+
+# Source: official Argo CD documentation: https://argo-cd.readthedocs.io/en/latest/
+sudo kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Check that Argo CD pods are running
+sudo kubectl get pods -n argocd
+
+# Apply Argo CD configuration
+sudo kubectl apply -f argocd/application.yaml
