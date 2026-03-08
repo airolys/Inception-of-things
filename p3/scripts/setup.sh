@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# ************************************************************************** */
+# Setup Docker Engine                                                        */
+# ************************************************************************** */
+
+# Source: official Docker documentation: https://docs.docker.com/engine/install/debian/
+
+# Set up Docker's apt repository.
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl -y
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+# Install Docker packages
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+# Verify that Docker is running
+sudo systemctl status docker
+
+# Verify that the installation is successful by running the hello-world image
+sudo docker run hello-world
+
+# ************************************************************************** */
+# Setup Kubectl                                                              */
+# ************************************************************************** */
+
+# Source: official kubernetes documentation: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+# Download the latest release with the command:
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+
+# Install kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# ************************************************************************** */
+# Setup k3d                                                                  */
+# ************************************************************************** */
+
+# Install current latest release of k3d
+# Source: official k3d documentation: https://k3d.io/stable/#installation
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+# Source: official k3d documentation: https://k3d.io/stable/#quick-start
+
+# Create a cluster named mycluster with just a single server node for testing purposes
+sudo k3d cluster create mycluster
+
+# Use the new cluster with kubectl, e.g.:
+sudo kubectl get nodes
+
+# Create namespaces from confs/namespaces.yaml
+sudo kubectl create -f ./confs/namespaces.yaml
+
+# Check that namespaces have been created
+sudo kubectl get namespace
