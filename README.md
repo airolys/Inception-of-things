@@ -8,8 +8,8 @@
 ### App deployment
 
 To test that the app has been well deployed inside its pod:
-1. Inside the VM, execute : `sudo kubectl port-forward svc/service-www 8080:80 -n dev`
-2. Inside the VM again, from another terminal, execute `curl http://localhost:8080`
+1. Inside the VM, execute : `sudo kubectl port-forward svc/service-www 8888:80 -n dev`
+2. Inside the VM again, from another terminal, execute `curl http://localhost:8888`
 
 It should return `Hello World v{tagVersion}!`
 
@@ -24,6 +24,17 @@ Before pushig the image, you can also test it locally and outside the VM by:
 3. Curling the port inside another terminal: `curl http://localhost:8888`
 
 It should return `Hello World v{tagVersion}!`
+
+### Argo CD
+
+To access Argo CD Dashboard from host machine:
+1. Setup a forwarding port inside Vagrant file: `config.vm.network "forwarded_port", guest: 8443, host: 8443`
+2. Inside the VM, launch: `sudo kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8443:443`
+3. Then just access to `http://localhost:8443` from the browser of your host machine
+
+Dashboard credentials:
+- Username: always `admin`
+- Password: get it by running `sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo` inside the VM
 
 ## Vagrant on Mac
 
