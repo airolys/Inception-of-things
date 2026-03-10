@@ -63,7 +63,7 @@ sudo k3d cluster create mycluster
 sudo kubectl get nodes
 
 # Apply all configuration files
-sudo kubectl apply -f ./confs/
+sudo kubectl create -f ./confs/00-namespaces.yaml
 
 # Check that namespaces have been created
 sudo kubectl get namespace
@@ -85,4 +85,4 @@ sudo kubectl apply -n argocd --server-side --force-conflicts -f https://raw.gith
 sudo kubectl get pods -n argocd
 
 # Apply Argo CD configuration
-sudo kubectl apply -f argocd/application.yaml
+sudo kubectl apply -f ./confs/01-argocd.yaml
