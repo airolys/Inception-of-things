@@ -57,7 +57,7 @@ curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 # Source: official k3d documentation: https://k3d.io/stable/#quick-start
 
 # Create a cluster named mycluster with just a single server node for testing purposes
-sudo k3d cluster create mycluster
+sudo k3d cluster create mycluster -p "8888:80@loadbalancer"
 
 # Use the new cluster with kubectl, e.g.:
 sudo kubectl get nodes
@@ -86,3 +86,15 @@ sudo kubectl get pods -n argocd
 
 # Apply Argo CD configuration
 sudo kubectl apply -f ./confs/01-argocd.yaml
+
+# Apply Ingress configuration
+sudo kubectl apply -f ./confs/02-ingress.yaml
+
+# Check that Ingress is active
+sudo kubectl get ingress -n dev
+
+# Get admin password for Argo CD dashboard
+sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+
+# Port forwarding to access Argo CD dashboard from host machine browser
+sudo kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8443:443
