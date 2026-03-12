@@ -5,5 +5,8 @@
 # But at home, on Mac, need to setup a VM first to simulate 42 school environement/VM
 p3/Vagrantfile
 
+# Script used to setup home VM
+p3/scripts/setup_vm.sh
+
 ## Romain questions
 questions.txt
