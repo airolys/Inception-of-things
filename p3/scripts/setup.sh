@@ -29,7 +29,7 @@ sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 # Verify that Docker is running
-sudo systemctl status docker
+#sudo systemctl status docker
 
 # Verify that the installation is successful by running the hello-world image
 sudo docker run hello-world
@@ -41,7 +41,7 @@ sudo docker run hello-world
 # Source: official kubernetes documentation: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 # Download the latest release with the command:
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
 
 # Install kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
@@ -96,5 +96,9 @@ sudo kubectl get ingress -n dev
 # Get admin password for Argo CD dashboard
 sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
+echo "test1"
+
 # Port forwarding to access Argo CD dashboard from host machine browser
 sudo kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8443:443
+
+echo "test2"
