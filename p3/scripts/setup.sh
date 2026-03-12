@@ -63,7 +63,7 @@ sudo k3d cluster create mycluster -p "8888:80@loadbalancer"
 sudo kubectl get nodes
 
 # Apply all configuration files
-sudo kubectl create -f ./confs/00-namespaces.yaml
+sudo kubectl create -f ../confs/00-namespaces.yaml
 
 # Check that namespaces have been created
 sudo kubectl get namespace
@@ -85,10 +85,10 @@ sudo kubectl apply -n argocd --server-side --force-conflicts -f https://raw.gith
 sudo kubectl get pods -n argocd
 
 # Apply Argo CD configuration
-sudo kubectl apply -f ./confs/01-argocd.yaml
+sudo kubectl apply -f ../confs/01-argocd.yaml
 
 # Apply Ingress configuration
-sudo kubectl apply -f ./confs/02-ingress.yaml
+sudo kubectl apply -f ../confs/02-ingress.yaml
 
 # Check that Ingress is active
 sudo kubectl get ingress -n dev
