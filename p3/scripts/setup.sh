@@ -93,6 +93,11 @@ sudo kubectl apply -f ../confs/02-ingress.yaml
 # Check that Ingress is active
 sudo kubectl get ingress -n dev
 
+# Waiting for Argo CD server to be available
+sudo kubectl wait --namespace argocd \
+  --for=condition=available deployment/argocd-server \
+  --timeout=90s
+
 # Get admin password for Argo CD dashboard
 sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
