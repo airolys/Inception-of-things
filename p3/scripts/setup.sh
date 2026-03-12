@@ -96,9 +96,5 @@ sudo kubectl get ingress -n dev
 # Get admin password for Argo CD dashboard
 sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
-echo "test1"
-
 # Port forwarding to access Argo CD dashboard from host machine browser
 sudo kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8443:443
-
-echo "test2"
