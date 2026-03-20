@@ -1,6 +1,16 @@
 #!/bin/bash
 
 # ************************************************************************** */
+# Increase disk size                                                         */
+# ************************************************************************** */
+
+lsblk
+df -h /
+sudo growpart /dev/vda 1
+sudo resize2fs /dev/vda1
+df -h /
+
+# ************************************************************************** */
 # Setup Docker Engine                                                        */
 # ************************************************************************** */
 
@@ -67,9 +77,6 @@ sudo kubectl create -f ./confs/00-namespaces.yaml
 
 # Check that namespaces have been created
 sudo kubectl get namespace
-
-# Check that the pod for app is running
-sudo kubectl get pods -n dev
 
 # Inspect Events inside dev namespace
 sudo kubectl describe pod -l app=playground -n dev
