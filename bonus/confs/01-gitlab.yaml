@@ -64,9 +64,9 @@ global:
     allowClusterRoles: true
   ## https://docs.gitlab.com/charts/charts/globals#configure-host-settings
   hosts:
-    domain: example.com
+    domain: localhost
     hostSuffix:
-    https: true
+    https: false
     externalIP:
     ssh:
     gitlab: {}
