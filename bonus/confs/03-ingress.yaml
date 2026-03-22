@@ -5,7 +5,8 @@ metadata:
   namespace: dev
 spec:
   rules:
-  - http:
+  - host: app.localhost
+    http:
       paths:
       - path: /
         pathType: Prefix

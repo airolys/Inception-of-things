@@ -179,7 +179,7 @@ global:
     configureCertmanager: false
     useNewIngressForCerts: false
     provider: nginx
-    # class:
+    class: traefik
     annotations: {}
     enabled: true
     tls: {}

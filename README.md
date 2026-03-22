@@ -117,7 +117,7 @@ vagrant rsync
 vagrant ssh
 sudo kubectl delete jobs --all -n gitlab
 sudo helm upgrade gitlab gitlab/gitlab -f ./confs/01-gitlab.yaml -n gitlab --force
-sudo kubectl get pods -n gitlab 
+sudo kubectl get pods -n gitlab
 ```
 
 #### See logs related to a pod
