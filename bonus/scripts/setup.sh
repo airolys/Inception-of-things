@@ -82,7 +82,7 @@ sudo kubectl get namespace
 sudo kubectl describe pod -l app=playground -n dev
 
 # ************************************************************************** */
-# Setup Helm                                                         */
+# Setup Helm                                                                 */
 # ************************************************************************** */
 
 # Installing Helm From Apt (Debian/Ubuntu)
@@ -94,6 +94,10 @@ echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.co
 sudo apt-get update
 sudo apt-get install helm
 
+# ************************************************************************** */
+# Setup Gitlab                                                               */
+# ************************************************************************** */
+
 # Downloading official Gitlab repository
 helm repo add gitlab https://charts.gitlab.io/
 
@@ -104,6 +108,37 @@ helm install gitlab gitlab/gitlab \
 
 # Check that Gitlab pods are running
 sudo kubectl get pods -n gitlab
+
+# ************************************************************************** */
+# Init Gitlab with default repository                                        */
+# ************************************************************************** */
+
+sudo kubectl wait --for=condition=available deployment/gitlab-webservice-default -n gitlab
+
+sudo kubectl exec -it -n gitlab deployment/gitlab-webservice-default -c webservice -- \
+/srv/gitlab/bin/rails runner "
+  user = User.find_by_username('root');
+  organization = Organizations::Organization.first
+  project_path = 'root/iot-app-rkassel';
+
+  params = {
+    name: 'iot-app-rkassel',
+    path: 'iot-app-rkassel',
+    namespace: user.namespace,
+    creator: user,
+    organization: organization,
+    visibility_level: Gitlab::VisibilityLevel::PUBLIC
+  }
+  
+  project = Projects::CreateService.new(user, params).execute
+
+  if project.persisted?
+    puts 'SUCCESS: Projet iot-app-rkassel créé avec succès.';
+  else
+    puts 'ERROR: Échec de la création du projet.';
+    exit 1;
+  end
+"
 
 # ************************************************************************** */
 # Setup Argo CD                                                              */
