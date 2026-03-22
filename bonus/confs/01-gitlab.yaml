@@ -179,11 +179,7 @@ global:
     configureCertmanager: false
     useNewIngressForCerts: false
     provider: nginx
-<<<<<<< HEAD
-    class: traefik
-=======
     # class:
->>>>>>> 7f48766 (gitlab setup with all pods running, interface not tested yet)
     annotations: {}
     enabled: true
     tls: {}
