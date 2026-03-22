@@ -128,7 +128,13 @@ sudo kubectl get pods -n gitlab
 
 Create tunnel between the Gitlab UI and the host machine/VM: `sudo kubectl port-forward --address 0.0.0.0 deployment/gitlab-webservice-default -n gitlab 8443:8080` (or 8443:8181)
 
-Get admin password: `udo kubectl get secret -n gitlab gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" | base64 --decode; echo`
+Get admin password: `sudo kubectl get secret -n gitlab gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" | base64 --decode; echo`
+
+#### URLs
+
+- Dashboard (projects of which I am a member): `http://localhost:8443/dashboard/projects`
+- Admin area (all instance projects): `http://localhost:8443/admin/projects`
+- Project repository: `http://localhost:8443/root/iot-app-rkassel`
 
 ## Vagrant on Mac
 
