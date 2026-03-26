@@ -113,7 +113,7 @@ sudo kubectl get pods -n gitlab
 # Init Gitlab with default project                                           */
 # ************************************************************************** */
 
-sudo kubectl wait --for=condition=available deployment/gitlab-webservice-default -n gitlab
+sudo kubectl wait --for=condition=available deployment/gitlab-webservice-default -n gitlab --timeout=600s
 
 sudo kubectl exec -it -n gitlab deployment/gitlab-webservice-default -c webservice -- \
 /srv/gitlab/bin/rails runner "
@@ -148,6 +148,7 @@ git clone https://github.com/romainkassel/iot-app-rkassel.git
 cd iot-app-rkassel
 GITLAB_PWD=$(kubectl get secret -n gitlab gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" | base64 --decode)
 git push http://root:$GITLAB_PWD@gitlab.localhost:8888/root/iot-app-rkassel.git
+cd ..
 
 # ************************************************************************** */
 # Setup Argo CD                                                              */

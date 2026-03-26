@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/romainkassel/iot-app-rkassel'
+    repoURL: 'http://gitlab-webservice-default.gitlab.svc.cluster.local:8181/root/iot-app-rkassel.git'
     targetRevision: HEAD
     path: 'confs' # Folder that contains conf files related to app (deployment + service)
   destination:

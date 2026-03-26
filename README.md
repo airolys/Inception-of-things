@@ -8,7 +8,7 @@
 ### App deployment
 
 To test that the app has been well deployed inside its pod:
-1. Inside the VM, execute : `sudo kubectl port-forward svc/service-www 8888:80 -n dev`
+1. Inside the VM, execute : `sudo kubectl port-forward --address 0.0.0.0 svc/service-www 8888:80 -n dev`
 2. Inside the VM again, from another terminal, execute `curl http://localhost:8888`
 
 It should return `Hello World v{tagVersion}!`
@@ -105,6 +105,11 @@ These steps can be not necessary for modern images as `cloud-image` as they auto
 
 ### Gitlab
 
+Latest relases: `https://about.gitlab.com/releases/categories/releases/`
+Check current version installed: `sudo helm list -n gitlab`
+
+By default, the latest version available inside the Gitlab repo is installed by Helm.
+
 #### See space used by services
 
 `sudo kubectl get pvc -A`
@@ -126,15 +131,15 @@ sudo kubectl get pods -n gitlab
 
 #### Gitlab UI
 
-Create tunnel between the Gitlab UI and the host machine/VM: `sudo kubectl port-forward --address 0.0.0.0 deployment/gitlab-webservice-default -n gitlab 8443:8080` (or 8443:8181)
-
 Get admin password: `sudo kubectl get secret -n gitlab gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" | base64 --decode; echo`
+
+Create tunnel between the Gitlab UI and the host machine/VM: `sudo kubectl port-forward --address 0.0.0.0 deployment/gitlab-webservice-default -n gitlab 7777:8181`
 
 #### URLs
 
-- Dashboard (projects of which I am a member): `http://localhost:8443/dashboard/projects`
-- Admin area (all instance projects): `http://localhost:8443/admin/projects`
-- Project repository: `http://localhost:8443/root/iot-app-rkassel`
+- Dashboard (projects of which I am a member): `http://localhost:7777/dashboard/projects`
+- Admin area (all instance projects): `http://localhost:7777/admin/projects`
+- Project repository: `http://localhost:7777/root/iot-app-rkassel`
 
 ## Vagrant on Mac
 
