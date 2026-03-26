@@ -8,5 +8,8 @@ p3/Vagrantfile
 # Script used to setup home VM
 p3/scripts/setup_vm.sh
 
-## Romain questions
+# Romain questions
 questions.txt
+
+# .DS_Store
+.DS_Store
