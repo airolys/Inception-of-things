@@ -19,4 +19,8 @@ Vagrant.configure("2") do |config|
 			apt-get install vagrant -y
             apt-get install virtualbox -y
 		SHELL
+
+    config.vm.network "forwarded_port", guest: 8443, host: 8443 # ArgoCD - p3
+    config.vm.network "forwarded_port", guest: 8888, host: 8888 # App - p3
+
 end
