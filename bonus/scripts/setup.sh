@@ -68,7 +68,7 @@ curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 # Source: official k3d documentation: https://k3d.io/stable/#quick-start
 
 # Create a cluster named mycluster with just a single server node for testing purposes
-sudo k3d cluster create mycluster -p "8888:80@loadbalancer" -p "8443:443@loadbalancer" -p "7777:8181@loadbalancer"
+sudo k3d cluster create mycluster -p "8888:80@loadbalancer"
 
 # Use the new cluster with kubectl, e.g.:
 echo "- - - testing kubectl - - -"
@@ -78,7 +78,7 @@ echo "- - - testing kubectl nodes - - -"
 sudo kubectl get nodes
 
 # Apply all configuration files
-sudo kubectl apply -f vagrant/confs/00-namespaces.yaml
+sudo kubectl apply -f /vagrant/confs/00-namespaces.yaml
 
 # Check that namespaces have been created
 echo "- - - testing kubectl namespace - - -"
@@ -114,7 +114,7 @@ helm repo update
 # Installing GitLab using Helm and Helm values
 helm install gitlab gitlab/gitlab \
   --namespace gitlab \
-  --values vagrant/confs/01-gitlab.yaml
+  --values /vagrant/confs/01-gitlab.yaml
   #--set global.hosts.domain=example.com \
   #--set global.hosts.externalIP=0.0.0.0 \
   #--set global.edition=ce
@@ -178,13 +178,13 @@ echo "- - - applying all confs - - -"
 
 pwd
 
-ls ./vagrant/confs/
+ls /vagrant/confs/
 
 # Apply Argo CD configuration
-sudo kubectl apply -f ./vagrant/confs/02-argocd.yaml
+sudo kubectl apply -f /vagrant/confs/02-argocd.yaml
 
 # Apply Ingress configuration
-sudo kubectl apply -f vagrant/confs/03-ingress.yaml
+sudo kubectl apply -f /vagrant/confs/03-ingress.yaml
 
 # Check that Ingress is active
 sudo kubectl get ingress -n dev
