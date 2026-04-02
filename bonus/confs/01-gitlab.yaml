@@ -52,7 +52,7 @@ global:
     labels: {}
 
   ## https://docs.gitlab.com/charts/installation/deployment#deploy-the-community-edition
-  edition: ee
+  edition: ce
 
   ## https://docs.gitlab.com/charts/charts/globals#gitlab-version
   # gitlabVersion:
@@ -179,7 +179,7 @@ global:
     configureCertmanager: false
     useNewIngressForCerts: false
     provider: nginx
-    class: traefik
+    # class:
     annotations: {}
     enabled: true
     tls: {}
@@ -1607,6 +1607,13 @@ gitlab:
     enabled: true
     minReplicas: 1
     maxReplicas: 1
+    workerProcesses: 1
+    resources:
+      requests:
+        memory: 4G
+      limits:
+        memory: 6G
+
   ## https://docs.gitlab.com/charts/charts/gitlab/sidekiq
   sidekiq:
     enabled: true
@@ -1614,7 +1621,7 @@ gitlab:
       requests:
         cpu: 50m
       limits:
-        cpu: 300m
+        cpu: 500m
 
   ## https://docs.gitlab.com/charts/charts/gitlab/gitaly
   gitaly:

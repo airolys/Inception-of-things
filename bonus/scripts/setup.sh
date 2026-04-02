@@ -4,11 +4,11 @@
 # Increase disk size                                                         */
 # ************************************************************************** */
 
-lsblk
-df -h /
-sudo growpart /dev/vda 1
-sudo resize2fs /dev/vda1
-df -h /
+#lsblk
+#df -h /
+#sudo growpart /dev/vda 1
+#sudo resize2fs /dev/vda1
+#df -h /
 
 # ************************************************************************** */
 # Setup Docker Engine                                                        */
@@ -18,31 +18,32 @@ df -h /
 
 # Set up Docker's apt repository.
 # Add Docker's official GPG key:
-sudo apt update
-sudo apt install ca-certificates curl zsh -y
+sudo apt-get update -qq
+sudo apt-get install ca-certificates curl zsh -y -qq
 sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
 sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
-URIs: https://download.docker.com/linux/debian
+URIs: https://download.docker.com/linux/ubuntu
 Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
 Components: stable
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
-sudo apt update
+sudo apt-get update -qq
 
 # Install Docker packages
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo apt-get install docker.io -y -qq
 
+echo "- - - testing docker installation - - -"
 # Verify that Docker is running
-#sudo systemctl status docker
+sudo systemctl status docker
 
 # Verify that the installation is successful by running the hello-world image
-sudo docker run hello-world
+#sudo docker run hello-world
 
 # ************************************************************************** */
 # Setup Kubectl                                                              */
@@ -51,7 +52,7 @@ sudo docker run hello-world
 # Source: official kubernetes documentation: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 # Download the latest release with the command:
-sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 
 # Install kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
@@ -70,12 +71,17 @@ curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 sudo k3d cluster create mycluster -p "8888:80@loadbalancer"
 
 # Use the new cluster with kubectl, e.g.:
+echo "- - - testing kubectl - - -"
+file /usr/local/bin/kubectl
+
+echo "- - - testing kubectl nodes - - -"
 sudo kubectl get nodes
 
 # Apply all configuration files
-sudo kubectl create -f ./confs/00-namespaces.yaml
+sudo kubectl apply -f /vagrant/confs/00-namespaces.yaml
 
 # Check that namespaces have been created
+echo "- - - testing kubectl namespace - - -"
 sudo kubectl get namespace
 
 # Inspect Events inside dev namespace
@@ -88,11 +94,11 @@ sudo kubectl describe pod -l app=playground -n dev
 # Installing Helm From Apt (Debian/Ubuntu)
 # Source: https://helm.sh/fr/docs/intro/install
 
-sudo apt-get install gpg apt-transport-https --yes
+sudo apt-get install gpg apt-transport-https --yes -qq
 curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
 echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-sudo apt-get update
-sudo apt-get install helm
+sudo apt-get update -qq
+sudo apt-get install helm -qq
 
 # ************************************************************************** */
 # Setup Gitlab                                                               */
@@ -101,10 +107,17 @@ sudo apt-get install helm
 # Downloading official Gitlab repository
 helm repo add gitlab https://charts.gitlab.io/
 
+helm repo update
+
+#kubectl create namespace gitlab
+
 # Installing GitLab using Helm and Helm values
 helm install gitlab gitlab/gitlab \
-  --values ./confs/01-gitlab.yaml \
-  --namespace gitlab
+  --namespace gitlab \
+  --values /vagrant/confs/01-gitlab.yaml
+  #--set global.hosts.domain=example.com \
+  #--set global.hosts.externalIP=0.0.0.0 \
+  #--set global.edition=ce
 
 # Check that Gitlab pods are running
 sudo kubectl get pods -n gitlab
@@ -160,11 +173,18 @@ sudo kubectl apply -n argocd --server-side --force-conflicts -f https://raw.gith
 # Check that Argo CD pods are running
 sudo kubectl get pods -n argocd
 
+echo "- - - applying all confs - - -"
+#sudo kubectl apply -f /vagrant/confs
+
+pwd
+
+ls /vagrant/confs/
+
 # Apply Argo CD configuration
-sudo kubectl apply -f ./confs/02-argocd.yaml
+sudo kubectl apply -f /vagrant/confs/02-argocd.yaml
 
 # Apply Ingress configuration
-sudo kubectl apply -f ./confs/03-ingress.yaml
+sudo kubectl apply -f /vagrant/confs/03-ingress.yaml
 
 # Check that Ingress is active
 sudo kubectl get ingress -n dev

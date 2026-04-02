@@ -1,0 +1,39 @@
+
+#test en cours ca marche po
+#but final: se debarasser du fichier de 1.6k lignes xD
+#enabled: false a se rapeller
+global:
+  hosts:
+    domain: localhost
+  ingress:
+    configureCertmanager: false
+    tls:
+      enabled: false
+  edition: ce
+
+certmanager: {}
+
+nginx-ingress:
+  enabled: false
+
+prometheus:
+  install: false
+
+grafana:
+  install: false
+
+gitlab-runner:
+  install: false
+
+registry:
+  enabled: false
+
+minio:
+  enabled: false
+
+gitlab:
+  kas:
+    enabled: false
+
+  webservice:
+    replicaCount: 1
