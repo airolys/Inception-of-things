@@ -4,22 +4,24 @@
 # Setup Docker Engine                                                        */
 # ************************************************************************** */
 
-# Source: official Docker documentation: https://docs.docker.com/engine/install/debian/
+# Source: official Docker documentation: https://docs.docker.com/engine/install/ubuntu/
 
 # Set up Docker's apt repository.
+
 # Add Docker's official GPG key:
 sudo apt update
-sudo apt install ca-certificates curl -y
+sudo apt install ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
 sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
-URIs: https://download.docker.com/linux/debian
-Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
 Components: stable
+Architectures: $(dpkg --print-architecture)
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
@@ -41,7 +43,7 @@ sudo docker run hello-world
 # Source: official kubernetes documentation: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 # Download the latest release with the command:
-sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 
 # Install kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
